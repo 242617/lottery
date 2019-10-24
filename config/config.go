@@ -7,6 +7,7 @@ import (
 )
 
 var Config struct {
+	LogPrefix     string `yaml:"log_prefix"`
 	IPC           string `yaml:"ipc"`
 	Streams       int    `yaml:"streams"`
 	TargetAddress string `yaml:"target_address"`

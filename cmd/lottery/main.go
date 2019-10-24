@@ -117,7 +117,7 @@ func try(generator chan ethereum.Account) {
 
 func save(filename string, message string) {
 	data := []byte(fmt.Sprintf("%s: %s", time.Now().Format("02.01.06 15:04:05"), message))
-	f, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	f, err := os.OpenFile(config.Config.LogPrefix+filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 	if err != nil {
 		log.Println(err)
 		return

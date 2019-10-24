@@ -1,4 +1,7 @@
-ipc: {{ipc}}
+log_prefix: /opt/lottery/
+ipc: /Users/dmitry/dev/github.com/242617/lottery/shared/ethereum/geth.ipc
+ipc_: {{ipc}}
 streams: 20
-target_address: {{address}}
+target_address: 0xa62899d36ed7cfa81b36e5656d55e3b07e0bf423
+target_address_: {{address}}
 gas_limit: 21000
