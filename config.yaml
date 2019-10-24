@@ -1,6 +1,6 @@
-log_prefix: /var/log/lottery/
-node_address: 
+log_prefix: /var/log/lottery_
+node_address: {{node_address}}
 node_secret: {{secret}}
 streams: 20
-target_address: {{address}}
+target_address: {{account}}
 gas_limit: 21000
