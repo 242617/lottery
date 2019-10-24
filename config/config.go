@@ -8,7 +8,8 @@ import (
 
 var Config struct {
 	LogPrefix     string `yaml:"log_prefix"`
-	IPC           string `yaml:"ipc"`
+	NodeAddress   string `yaml:"node_address"`
+	NodeSecret    string `yaml:"node_secret"`
 	Streams       int    `yaml:"streams"`
 	TargetAddress string `yaml:"target_address"`
 	GasLimit      uint64 `yaml:"gas_limit"`

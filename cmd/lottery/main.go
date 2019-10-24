@@ -29,10 +29,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = ethereum.Init(config.Config.IPC)
+	err = ethereum.Init()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer ethereum.Close()
 
 	generator := ethereum.NewGenerator()
 	for s := 0; s <= config.Config.Streams; s++ {

@@ -5,6 +5,12 @@ build:
 		-o lottery \
 		cmd/lottery/main.go
 
+.PHONY: build\:linux
+build\:linux:
+	GOOS=linux GOARCH=amd64 go build \
+		-o lottery \
+		cmd/lottery/main.go
+
 .PHONY: utils\:private2address
 utils\:private2address:
 	go build \
