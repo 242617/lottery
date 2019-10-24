@@ -1,0 +1,4 @@
+ipc: {{ipc}}
+streams: 20
+target_address: {{address}}
+gas_limit: 21000
