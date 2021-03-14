@@ -5,13 +5,14 @@ import (
 
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/rs/zerolog/log"
 )
 
-func BlockNumber(ctx context.Context) (uint64, error) {
-
+func (c *client) BlockNumber(ctx context.Context) (uint64, error) {
 	var header *types.Header
-	err := client.CallContext(ctx, &header, "eth_getBlockByNumber", "latest", false)
+	err := c.client.CallContext(ctx, &header, "eth_getBlockByNumber", "latest", false)
 	if err != nil {
+		log.Error().Err(err).Msg("cannot get block by number")
 		return 0, err
 	}
 	if err == nil && header == nil {

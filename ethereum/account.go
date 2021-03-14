@@ -2,10 +2,10 @@ package ethereum
 
 import (
 	"encoding/hex"
-	"log"
 	"strings"
 
 	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/rs/zerolog/log"
 )
 
 type Account struct {
@@ -16,7 +16,7 @@ type Account struct {
 func generateAccount() Account {
 	key, err := crypto.GenerateKey()
 	if err != nil {
-		log.Println("err", err)
+		log.Error().Err(err).Msg("cannot generate key")
 		return generateAccount()
 	}
 	return Account{

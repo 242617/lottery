@@ -2,22 +2,23 @@ package ethereum
 
 import (
 	"context"
-	"log"
 	"time"
+
+	"github.com/rs/zerolog/log"
 )
 
-func AfterBlocks(ctx context.Context, blocks uint64) chan struct{} {
+func (c *client) AfterBlocks(ctx context.Context, blocks uint64) chan struct{} {
 	ch := make(chan struct{})
 	go func() {
-		blockNumber, err := BlockNumber(ctx)
+		blockNumber, err := c.BlockNumber(ctx)
 		if err != nil {
-			log.Println("err", err)
+			log.Error().Err(err).Msg("cannot get block number")
 			return
 		}
 		for {
-			currentBlockNumber, err := BlockNumber(ctx)
+			currentBlockNumber, err := c.BlockNumber(ctx)
 			if err != nil {
-				log.Println("err", err)
+				log.Error().Err(err).Msg("cannot get block number")
 				break
 			}
 			if currentBlockNumber >= blockNumber+blocks {

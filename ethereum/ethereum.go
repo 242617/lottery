@@ -1,33 +1,26 @@
 package ethereum
 
 import (
-	"net/http"
-
 	"github.com/ethereum/go-ethereum/rpc"
-
-	"github.com/242617/lottery/config"
+	"github.com/rs/zerolog/log"
 )
 
-var client *rpc.Client
-
-func Init() error {
-
-	var err error
-	client, err = rpc.DialHTTPWithClient(config.Config.NodeAddress, &http.Client{Transport: &transport{}})
-	if err != nil {
-		return err
+func New(cfg Config) (*client, error) {
+	c := client{
+		cfg: cfg,
 	}
-
-	return nil
+	var err error
+	c.client, err = rpc.Dial(cfg.NodeAddress)
+	if err != nil {
+		log.Error().Str("cfg.NodeAddress", cfg.NodeAddress).Err(err).Msg("cannot dial")
+		return nil, err
+	}
+	return &c, nil
 }
 
-type transport struct{}
-
-func (t *transport) RoundTrip(req *http.Request) (*http.Response, error) {
-	req.SetBasicAuth("", config.Config.NodeSecret)
-	return http.DefaultTransport.RoundTrip(req)
+type client struct {
+	cfg    Config
+	client *rpc.Client
 }
 
-func Close() {
-	client.Close()
-}
+func (c *client) Close() { c.client.Close() }

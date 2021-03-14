@@ -1,24 +1,48 @@
+SERVICE_NAME ?= 242617/lottery:1.0.0
 
+# Debug
 .PHONY: build
 build:
 	go build \
-		-o lottery \
-		cmd/lottery/main.go
+		-o bin/app \
+		cmd/main/main.go
 
-.PHONY: build\:linux
-build\:linux:
-	GOOS=linux GOARCH=amd64 go build \
-		-o lottery \
-		cmd/lottery/main.go
+.PHONY: run
+run: build
+	./bin/app
 
-.PHONY: utils\:private2address
-utils\:private2address:
-	go build \
-		-o private2address \
-		cmd/private2address/main.go
 
-.PHONY: utils\:keystore2private
-utils\:keystore2private:
-	go build \
-		-o keystore2private \
-		cmd/keystore2private/main.go
+# Docker
+docker\:build:
+	docker build \
+		-t ${SERVICE_NAME} \
+		-f Dockerfile \
+		.
+
+docker\:run:
+	docker run \
+		-it --rm \
+		${SERVICE_NAME}
+
+docker\:push:
+	docker push ${SERVICE_NAME}
+
+
+# Node
+node:
+	docker run -it \
+		-p 8070:8070 \
+		-p 30303:30303 \
+		ethereum/client-go \
+			--http \
+			--http.addr=localhost \
+			--http.port=8070 \
+			--syncmode=light \
+			--nousb
+
+node\:check:
+	curl \
+		-X POST \
+		-H "content-type: application/json" \
+		--data '{"jsonrpc":"2.0","method":"web3_clientVersion","params":[],"id":67}' \
+		localhost:8070
